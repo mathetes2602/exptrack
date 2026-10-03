@@ -1,10 +1,16 @@
-import os
+from functions import *
 
 dir = os.path.abspath('.')
 filename = 'expenses.csv'
 file_path = os.path.join(dir, filename)
 
-if (os.path.exists(file_path) == False): 
-    with open(file_path, encoding='utf-8', mode='w') as f:
-        f.write('name,amount,date\n')
+new_record = {
+    "name": "new expense",
+    "amount": 1234,
+    "date": "03/10/26",
+}
+add_record(file_path, new_record)
+list_expenses(file_path)
+
+
 
