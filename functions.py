@@ -19,3 +19,14 @@ def add_record(path, record):
     else:
         print('incorrect filepath')
 
+def get_total(path):
+    if os.path.exists(path):
+        with open(path, mode='r')as f:
+            total = 0 
+            lines = f.readlines()
+            for line in lines[1:]:
+                cells = line.split(',')
+                total += int(cells[1])
+            return total
+
+

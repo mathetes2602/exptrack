@@ -12,9 +12,15 @@ if (os.path.exists(file_path) == False):
         f.write('name,amount,date\n')
 
 args = sys.argv
-if (len(args) == 2 and args[1] == "list"):
-    list_expenses(file_path)
-elif (len(args) == 3):
+
+if len(args) == 2:
+    match args[1]:
+        case '--list':
+            list_expenses(file_path)
+        case '--total':
+            print(get_total(file_path))
+
+if (len(args) == 3):
     date = datetime.datetime.now()
     date = str(date).split(" ")[0]
 
@@ -25,6 +31,4 @@ elif (len(args) == 3):
     }
 
     add_record(file_path, new_record)
-else:
-    print("wrong number of arguments")
 
