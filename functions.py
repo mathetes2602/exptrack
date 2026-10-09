@@ -9,10 +9,40 @@ def get_expenses(path):
     else:
         print('incorrect filepath')
 
+def get_max_padding(lines):
+    max_padding = {
+        "#": 0,
+        "name": 0,
+        "amount": 0,
+    }
+    for line in lines:
+        line = line.strip()
+        cells = line.split(',')
+        if len(cells[0]) > max_padding["#"]:
+            max_padding["#"] = len(cells[0])
+        if len(cells[1]) > max_padding["name"]:
+            max_padding["name"] = len(cells[1])
+        if len(cells[2]) > max_padding["amount"]:
+            max_padding["amount"] = len(cells[2])
+    return max_padding
+
+def get_padding(max_padding, cells):
+    return {
+        "#": max_padding["#"] - len(cells[0]),
+        "name": max_padding["name"] - len(cells[1]),
+        "amount": max_padding["amount"] - len(cells[2])
+    }
+
 def list_expenses(path):
     expenses = get_expenses(path)
+    max_padding = get_max_padding(expenses)
+    bottom_padding = max_padding["#"] + max_padding["name"] + max_padding["amount"] + 18 # date + spaces
     for e in expenses:
-        print(e)
+        e = e.strip()
+        cells = e.split(',')
+        pad = get_padding(max_padding, cells)
+        print(f"{cells[0]}{pad["#"] * ' '}| {cells[1]}{pad["name"] * ' '}| {cells[2]}{pad["amount"] * ' '}| {cells[3]}")
+        print(f"{bottom_padding * '-'}")
 
 def add_record(path, record):
     if os.path.exists(path):
@@ -28,7 +58,7 @@ def get_total(path):
             lines = f.readlines()
             for line in lines[1:]:
                 cells = line.split(',')
-                total += int(cells[1])
+                total += int(cells[2])
             return total
 
 
@@ -50,7 +80,7 @@ def delete_record(path, record_number):
             new_records[i]["number"] = i + 1
 
         with open(path, mode='w') as f:
-            f.write('number,name,amount,date\n')
+            f.write('#,name,amount,date\n')
     
         for r in new_records:
             add_record(path, r)

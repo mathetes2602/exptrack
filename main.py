@@ -9,7 +9,7 @@ def main():
 
     if (os.path.exists(file_path) == False): 
         with open(file_path, encoding='utf-8', mode='w') as f:
-            f.write('number,name,amount,date\n')
+            f.write('#,name,amount,date\n')
 
     args = sys.argv
 
