@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+
 import sys
 import datetime
 from functions import *
 
 def main():
-    dir = os.path.abspath('.')
+    dir = os.path.expanduser("~")
     filename = 'expenses.csv'
     file_path = os.path.join(dir, filename)
 
